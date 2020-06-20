@@ -29,4 +29,4 @@ gcloud container clusters get-credentials "$CLUSTER_NAME" --zone "$ZONE_NAME" --
 # verify kube-context
 kubectl config current-context
 
-kubectl apply -f ./manifests/
+kubectl apply -f k8s/manifests/
