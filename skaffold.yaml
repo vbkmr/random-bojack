@@ -1,0 +1,24 @@
+apiVersion: skaffold/v2beta3
+kind: Config
+metadata:
+  name: random-bojack-app
+build:
+  artifacts:
+    - image: random-bojack-app
+      context: .
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: src/components/**/*
+            dest: /
+          - src: src/pages/**/*
+            dest: /
+          - src: public/**/*
+            dest: /
+deploy:
+  kubectl:
+    manifests:
+      - k8s/app-ingress.yaml
+      # - k8s/app-secret.yaml
+      - k8s/app-deployment-service.yaml

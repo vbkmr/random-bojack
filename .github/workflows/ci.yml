@@ -1,0 +1,63 @@
+# This is a basic workflow to help you get started with Actions
+name: CI
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [master, develop]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: npm install, build, and test
+        run: |
+          cd src
+          npm install
+          npm run test
+          npm run build
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: vvhale/random-bojack
+          dockerfile: k8s/Dockerfile
+          tags: latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy to GKE
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
+          ZONE_NAME: us-central1-c
+        run: |
+          sh k8s/deploy.sh

@@ -1,0 +1,14 @@
+version: "3"
+services:
+  random-bojack-app:
+    build: .
+    ports:
+      - "3000:3000"
+    hostname: random-bojack-app
+    # volumes:
+    environment:
+      - TZ=Asia/Tokyo
+    networks:
+      - random-bojack-network
+networks:
+  random-bojack-network:

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: random-bojack-app
+  labels:
+    app: random-bojack-app
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: random-bojack-app
+  template:
+    metadata:
+      labels:
+        app: random-bojack-app
+    spec:
+      containers:
+        - name: random-bojack-app
+          image: vvhale/random-bojack:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+          env:
+            - name: TZ
+              value: "Asia/Tokyo"
+            - name: OAUTH2_CLIENT_SECRET
+              value: "unext"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: random-bojack-app
+  labels:
+    app: random-bojack-app
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: random-bojack-app
