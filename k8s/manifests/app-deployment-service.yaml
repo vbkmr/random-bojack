@@ -31,8 +31,6 @@ spec:
           env:
             - name: TZ
               value: "Asia/Tokyo"
-            - name: OAUTH2_CLIENT_SECRET
-              value: "unext"
 ---
 apiVersion: v1
 kind: Service
