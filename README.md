@@ -1,4 +1,15 @@
-# TypeScript & Styled Components Next.js example
+# Random bojack app
+![image](https://user-images.githubusercontent.com/6745332/85291585-a5263600-b4d5-11ea-85c1-54372d339a4f.png)
+
+
+# Local build
+
+1. Download `docker` in your local machine. https://www.docker.com/get-started
+2. Clone the repo
+3. Run: `docker-compose up`
+
+
+# Starter README: TypeScript & Styled Components Next.js example
 
 This is a really simple project that show the usage of Next.js with TypeScript and Styled Components.
 
