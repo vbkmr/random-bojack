@@ -1,6 +1,10 @@
 # Random bojack app
 ![image](https://user-images.githubusercontent.com/6745332/85291585-a5263600-b4d5-11ea-85c1-54372d339a4f.png)
 
+# Deployment
+## Dev
+http://www.bojack-app.vaibhavkumar.me/
+
 
 # Local build
 
