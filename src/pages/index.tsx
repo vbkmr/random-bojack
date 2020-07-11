@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import axios from "axios";
 
 const DisplayImage = styled.div<{ image: string }>`
   background-image: url("${props => props.image}");
   width: 100%;
   height: 800px;
-  background-position: center top;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 `;
 
 interface ImageUrl {
   urls: {
-    regular: string;
+    full: string;
   };
 }
 
@@ -26,6 +26,7 @@ interface ImageApiResponse {
 const Home: React.FC = () => {
   const [horsePic, setHorsePic] = useState<string>("");
   const [imageUrls, setImageUrls] = useState<[ImageUrl] | null>(null);
+  
   useEffect(() => {
     axios
       .get(
@@ -38,19 +39,15 @@ const Home: React.FC = () => {
         console.log(error);
       });
   }, []);
-  
+
   let index = 0;
   const setIntervalFunction = () => {
     if (imageUrls !== null) {
       if (index <= imageUrls.length - 1) {
-        console.log(index, "index");
-        console.log(imageUrls, "image url");
-
-        setHorsePic(imageUrls[index].urls.regular);
-
-        index = index + 1;
+         setHorsePic(imageUrls[index].urls.full);
+         index = index + 1;
       } else {
-        setHorsePic(imageUrls[0].urls.regular);
+        setHorsePic(imageUrls[0].urls.full);
         index = 1;
       }
     }
