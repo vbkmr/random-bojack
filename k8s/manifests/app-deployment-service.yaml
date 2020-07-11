@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: random-bojack-app
-          image: vvhale/random-bojack:latest
+          image: docker.io/vvhale/random-bojack:latest
           ports:
             - containerPort: 3000
           resources:
