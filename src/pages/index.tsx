@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-const DisplayImage = styled.div<{ image: string[] }>`
+const DisplayImage = styled.div<{ image: string }>`
   background-image: url("${props => props.image}");
   width: 100%;
   height: 800px;
@@ -13,7 +13,7 @@ const DisplayImage = styled.div<{ image: string[] }>`
 
 interface ImageUrl {
   urls: {
-    regular: [string];
+    regular: string;
   };
 }
 
@@ -24,7 +24,7 @@ interface ImageApiResponse {
 }
 
 const Home: React.FC = () => {
-  const [horsePic, setHorsePic] = useState<string[]>([]);
+  const [horsePic, setHorsePic] = useState<string>("");
   const [imageUrls, setImageUrls] = useState<[ImageUrl] | null>(null);
   useEffect(() => {
     axios
@@ -38,23 +38,28 @@ const Home: React.FC = () => {
         console.log(error);
       });
   }, []);
-
+  
   let index = 0;
-  useEffect(() => {
+  const setIntervalFunction = () => {
     if (imageUrls !== null) {
-      const interval = setInterval(() => {
-        if (index <= imageUrls.length - 1) {
-          index = index + 1;
-          setHorsePic(imageUrls[index].urls.regular);
-          console.log( "shilpi");
-        } else {
-          index = 0;
-        }
-      }, 1000);
-      return () => {
-        clearInterval(interval);
-      };
+      if (index <= imageUrls.length - 1) {
+        console.log(index, "index");
+        console.log(imageUrls, "image url");
+
+        setHorsePic(imageUrls[index].urls.regular);
+
+        index = index + 1;
+      } else {
+        setHorsePic(imageUrls[0].urls.regular);
+        index = 1;
+      }
     }
+  };
+  useEffect(() => {
+    const interval = setInterval(setIntervalFunction, 10000);
+    return () => {
+      clearInterval(interval);
+    };
   }, [imageUrls]);
 
   return (
