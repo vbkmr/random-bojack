@@ -35,9 +35,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(
-        "https://api.unsplash.com/search/photos?&query=horse&client_id=qwsMPXru1mQVCIU13RhAMYvJGzWwIpjfVsICqncS-m4"
-      )
+      .get("/api/images/horse")
       .then((response: ImageApiResponse) => {
         setImageUrls(response.data.results);
       })
