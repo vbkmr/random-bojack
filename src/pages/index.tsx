@@ -21,9 +21,10 @@ interface ImageUrl {
 }
 
 interface ImageApiResponse {
-  results: [ImageUrl];
-};
-
+  data: {
+    results: [ImageUrl];
+  };
+}
 
 const INTERVAL_TIMER = 10000; // in ms
 
