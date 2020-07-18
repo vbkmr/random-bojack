@@ -33,7 +33,7 @@ const Home: React.FC = () => {
   useEffect(() => {
       const fetchData = async () => {
       const res = await fetch("/api/images/horse");
-      const response = await res.json();
+      const response:ImageApiResponse = await res.json();
       setImageUrls(response.results);
     };
     fetchData();
