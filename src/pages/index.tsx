@@ -22,7 +22,8 @@ interface ImageUrl {
 
 interface ImageApiResponse {
   results: [ImageUrl];
-}
+};
+
 
 const INTERVAL_TIMER = 10000; // in ms
 
@@ -30,13 +31,10 @@ const Home: React.FC = () => {
   const [horsePic, setHorsePic] = useState<string>("");
   const [imageUrls, setImageUrls] = useState<[ImageUrl] | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let res = await fetch("/api/images/horse");
-      let response = await res.json();
+  useEffect(async () => {
+      const res = await fetch("/api/images/horse");
+      const response = await res.json();
       setImageUrls(response.results);
-    };
-    fetchData();
   }, []);
 
   let index = 0;
