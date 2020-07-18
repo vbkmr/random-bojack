@@ -5,10 +5,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default function getHorsePics(req: NextApiRequest, res: NextApiResponse) {
 if(req.method === "GET") {
     const fetchData = async () => {
-        let res = await fetch (url, {method: "GET"});
-        let response = await res.json();
-        return response;
+        let result = await fetch (url, {method: "GET"});
+        let response = await result.json();
+        res.send(response);
     };
+    fetchData();
   }
 };
 
