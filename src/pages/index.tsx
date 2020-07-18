@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 const DisplayImage = styled.div<{ image: string }>`
   background-image: url("${(props) => props.image}");
@@ -34,14 +33,12 @@ const Home: React.FC = () => {
   const [imageUrls, setImageUrls] = useState<[ImageUrl] | null>(null);
 
   useEffect(() => {
-    axios
-      .get("/api/images/horse")
-      .then((response: ImageApiResponse) => {
-        setImageUrls(response.data.results);
-      })
-      .catch((error: ErrorConstructor) => {
-        console.log(error);
-      });
+    const fetchData = async () => {
+      let res = await fetch("/api/images/horse");
+      let response = await res.json();
+      setImageUrls(response.results);
+    };
+    fetchData();
   }, []);
 
   let index = 0;

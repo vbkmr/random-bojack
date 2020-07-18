@@ -8,7 +8,7 @@ http://www.bojack-app.vaibhavkumar.me/
 # Local build (without docker)
 
 1. Clone the repo
-2. Get access to the CLIENT_ID 
+2. Get access to the CLIENT_ID or create your own `https://unsplash.com/documentation` 
 3. Create `.env` file and put the value of CLIENT_ID there like CLIENT_ID=xyz
 4. Include `.env` file in `.gitigonore `
 
