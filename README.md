@@ -5,8 +5,14 @@
 - Dev: auto-deploy develop branch using github-actions at 
 http://www.bojack-app.vaibhavkumar.me/
 
+# Local build (without docker)
 
-# Local build
+1. Clone the repo
+2. Get access to the CLIENT_ID 
+3. Create `.env` file and put the value of CLIENT_ID there like CLIENT_ID=xyz
+4. Include `.env` file in `.gitigonore `
+
+# Local build (with docker)
 
 1. Download `docker` in your local machine. https://www.docker.com/get-started
 2. Clone the repo
