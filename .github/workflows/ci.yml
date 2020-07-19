@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         env:
-          ARG_CLIENT_ID: ${{secret.CLIENT_ID}}
+          ARG_CLIENT_ID: ${{secrets.CLIENT_ID}}
       - uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
