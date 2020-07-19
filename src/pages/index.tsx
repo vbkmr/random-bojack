@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 const DisplayImage = styled.div<{ image: string }>`
   background-image: url("${(props) => props.image}");
@@ -22,9 +21,7 @@ interface ImageUrl {
 }
 
 interface ImageApiResponse {
-  data: {
-    results: [ImageUrl];
-  };
+  results: [ImageUrl];
 }
 
 const INTERVAL_TIMER = 10000; // in ms
@@ -34,16 +31,12 @@ const Home: React.FC = () => {
   const [imageUrls, setImageUrls] = useState<[ImageUrl] | null>(null);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://api.unsplash.com/search/photos?&query=horse&client_id=qwsMPXru1mQVCIU13RhAMYvJGzWwIpjfVsICqncS-m4"
-      )
-      .then((response: ImageApiResponse) => {
-        setImageUrls(response.data.results);
-      })
-      .catch((error: ErrorConstructor) => {
-        console.log(error);
-      });
+      const fetchData = async () => {
+      const res = await fetch("/api/images/horse");
+      const response:ImageApiResponse = await res.json();
+      setImageUrls(response.results);
+    };
+    fetchData();
   }, []);
 
   let index = 0;
