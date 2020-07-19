@@ -29,4 +29,5 @@ gcloud container clusters get-credentials "$CLUSTER_NAME" --zone "$ZONE_NAME" --
 # verify kube-context
 kubectl config current-context
 
-kubectl apply -f k8s/manifests/
+sed -e s/%APP_IMAGE_TAG%/${DOCKER_IMAGE_TAG}/g k8s/manifests/app-deployment-service.yaml | kubectl apply -f -
+kubectl apply -f k8s/manifests/app-ingress.yaml

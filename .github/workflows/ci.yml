@@ -32,14 +32,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+        env:
+          ARG_CLIENT_ID: ${{secret.CLIENT_ID}}
       - uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: vvhale/random-bojack
           dockerfile: k8s/Dockerfile
-          tags: latest
+          tags: ${{ github.sha }}
+          buildargs: ARG_CLIENT_ID
 
   deploy:
     needs: build
@@ -48,11 +50,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Deploy to GKE
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_IMAGE_TAG: ${{ github.sha }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
           APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           CLUSTER_NAME: ${{ secrets.GKE_CLUSTER_NAME }}
