@@ -41,7 +41,7 @@ jobs:
           repository: vvhale/random-bojack
           dockerfile: k8s/Dockerfile
           tags: ${{ github.sha }}
-          buildargs: ARG_CLIENT_ID
+          args: ARG_CLIENT_ID
 
   deploy:
     needs: build
