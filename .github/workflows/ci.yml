@@ -32,8 +32,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        env:
-          ARG_CLIENT_ID: ${{secrets.CLIENT_ID}}
       - uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -41,7 +39,7 @@ jobs:
           repository: vvhale/random-bojack
           dockerfile: k8s/Dockerfile
           tags: ${{ github.sha }}
-          args: ARG_CLIENT_ID
+          build_args: ARG_CLIENT_ID=${{secrets.CLIENT_ID}}
 
   deploy:
     needs: build
