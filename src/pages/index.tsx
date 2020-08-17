@@ -17,7 +17,17 @@ const Loading = styled.h1`
 
 const INTERVAL_TIMER = 10000; // in ms
 
-const Home: React.FC = ({ imageUrls }) => {
+interface ImageUrl {
+  urls: {
+    full: string;
+  };
+}
+
+interface Props {
+  imageUrls: [ImageUrl];
+}
+
+const Home: React.FC<Props> = ({ imageUrls }) => {
   const [horsePic, setHorsePic] = useState<string>("");
 
   let index = 0;
@@ -58,7 +68,7 @@ export const getStaticProps = async () => {
     `https://api.unsplash.com/search/photos?&query=horse&client_id=${process.env.CLIENT_ID}`
   );
   const result = await response.json();
-  const imageUrls = result.results;
+  const imageUrls: [ImageUrl] = result.results;
   return {
     props: { imageUrls }
   };
