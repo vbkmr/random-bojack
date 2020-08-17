@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import fetch from "isomorphic-unfetch";
 
 const DisplayImage = styled.div<{ image: string }>`
-  background-image: url("${(props) => props.image}");
+  background-image: url("${props => props.image}");
   height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
@@ -14,30 +15,10 @@ const Loading = styled.h1`
   margin-top: 40vh;
 `;
 
-interface ImageUrl {
-  urls: {
-    full: string;
-  };
-}
-
-interface ImageApiResponse {
-  results: [ImageUrl];
-}
-
 const INTERVAL_TIMER = 10000; // in ms
 
-const Home: React.FC = () => {
+const Home: React.FC = ({ imageUrls }) => {
   const [horsePic, setHorsePic] = useState<string>("");
-  const [imageUrls, setImageUrls] = useState<[ImageUrl] | null>(null);
-
-  useEffect(() => {
-      const fetchData = async () => {
-      const res = await fetch("/api/images/horse");
-      const response:ImageApiResponse = await res.json();
-      setImageUrls(response.results);
-    };
-    fetchData();
-  }, []);
 
   let index = 0;
   const setIntervalFunction = () => {
@@ -71,5 +52,15 @@ const Home: React.FC = () => {
       <DisplayImage image={horsePic} />
     </>
   );
+};
+export const getStaticProps = async () => {
+  const response = await fetch(
+    `https://api.unsplash.com/search/photos?&query=horse&client_id=${process.env.CLIENT_ID}`
+  );
+  const result = await response.json();
+  const imageUrls = result.results;
+  return {
+    props: { imageUrls }
+  };
 };
 export default Home;
