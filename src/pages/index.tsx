@@ -28,9 +28,9 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ imageUrls }) => {
-  const [horsePic, setHorsePic] = useState<string>("");
+  const [horsePic, setHorsePic] = useState<string>(imageUrls[0].urls.full);
 
-  let index = 0;
+  let index = 1;
   const setIntervalFunction = () => {
     if (imageUrls !== null) {
       if (index <= imageUrls.length - 1) {
@@ -40,13 +40,15 @@ const Home: React.FC<Props> = ({ imageUrls }) => {
         setHorsePic(imageUrls[0].urls.full);
         index = 1;
       }
+    } else {
+      console.log("error: page not found");
     }
   };
+
   useEffect(() => {
     if (imageUrls !== null) {
       setHorsePic(imageUrls[0].urls.full);
     }
-
     const interval = setInterval(setIntervalFunction, INTERVAL_TIMER);
     return () => {
       clearInterval(interval);
@@ -63,6 +65,7 @@ const Home: React.FC<Props> = ({ imageUrls }) => {
     </>
   );
 };
+
 export const getStaticProps = async () => {
   const response = await fetch(
     `https://api.unsplash.com/search/photos?&query=horse&client_id=${process.env.CLIENT_ID}`
@@ -73,4 +76,5 @@ export const getStaticProps = async () => {
     props: { imageUrls }
   };
 };
+
 export default Home;
