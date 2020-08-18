@@ -32,7 +32,7 @@ const Home: React.FC<Props> = ({ imageUrls }) => {
 
   let index = 1;
   const setIntervalFunction = () => {
-    if (imageUrls !== null) {
+    if (imageUrls && imageUrls.length) {
       if (index <= imageUrls.length - 1) {
         setHorsePic(imageUrls[index].urls.full);
         index = index + 1;
