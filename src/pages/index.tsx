@@ -28,6 +28,7 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ imageUrls }) => {
+  
   const [horsePic, setHorsePic] = useState<string>(imageUrls[0].urls.full);
 
   let index = 1;
@@ -67,11 +68,17 @@ const Home: React.FC<Props> = ({ imageUrls }) => {
 };
 
 export const getStaticProps = async () => {
-  const response = await fetch(
-    `https://api.unsplash.com/search/photos?&query=horse&client_id=${process.env.CLIENT_ID}`
-  );
-  const result = await response.json();
-  const imageUrls: [ImageUrl] = result.results;
+  let imageUrls: [ImageUrl] | null = null;
+  let error: null | string = null;
+  try {
+    const response = await fetch(
+      `https://api.unsplash.com/search/photos?&query=horse&client_id=${process.env.CLIENT_ID}`
+    );
+    const result = await response.json();
+    imageUrls = result.results;
+  } catch (err) {
+    error = "Something bad happened";
+  }
   return {
     props: { imageUrls }
   };
