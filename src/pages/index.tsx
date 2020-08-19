@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import fetch from "isomorphic-unfetch";
+import console = require("console");
 
 const DisplayImage = styled.div<{ image: string }>`
   background-image: url("${props => props.image}");
@@ -68,7 +69,6 @@ const Home: React.FC<Props> = ({ imageUrls }) => {
 
 export const getStaticProps = async () => {
   let imageUrls: [ImageUrl] | null = null;
-  let error: null | string = null;
   try {
     const response = await fetch(
       `https://api.unsplash.com/search/photos?&query=horse&client_id=${process.env.CLIENT_ID}`
@@ -76,7 +76,7 @@ export const getStaticProps = async () => {
     const result = await response.json();
     imageUrls = result.results;
   } catch (err) {
-    error = "Something bad happened";
+    console.error("Something bad happened");
   }
   return {
     props: { imageUrls }
