@@ -28,7 +28,6 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ imageUrls }) => {
-  
   const [horsePic, setHorsePic] = useState<string>(imageUrls[0].urls.full);
 
   let index = 1;
