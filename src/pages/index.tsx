@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import fetch from "isomorphic-unfetch";
-import console = require("console");
 
 const DisplayImage = styled.div<{ image: string }>`
   background-image: url("${props => props.image}");
