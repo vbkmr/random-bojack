@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { GetStaticProps } from "next";
 import styled from "styled-components";
 import fetch from "isomorphic-unfetch";
 
@@ -67,7 +68,7 @@ const Home: React.FC<Props> = ({ imageUrls, errorMessage }) => {
   } else return <DisplayImage image={horsePic} />;
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   let imageUrls: [ImageUrl] | null = null;
   let errorMessage: null | string = null;
   try {
