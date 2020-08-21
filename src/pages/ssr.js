@@ -63,9 +63,14 @@ const Home = ({ imageUrls }) => {
   );
 };
 export const getServerSideProps = async context => {
-  const response = await fetch(`${process.env.HOST}/api/images/horse`);
-  const result = await response.json();
-  const imageUrls = result.results;
+  let imageUrls = null;
+  try {
+    const response = await fetch(`${process.env.HOST}/api/images/horse`);
+    const result = await response.json();
+    imageUrls = result.results;
+  } catch (err) {
+    console.error("Something wrong happened");
+  }
   return {
     props: { imageUrls }
   };
