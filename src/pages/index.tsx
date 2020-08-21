@@ -14,9 +14,11 @@ const Loading = styled.h1`
   margin-left: 40vw;
   margin-top: 40vh;
 `;
+const DisplayError = styled.h1<{ message: string }>`
+  color: red;
+`;
 
 const INTERVAL_TIMER = 10000; // in ms
-
 interface ImageUrl {
   urls: {
     full: string;
@@ -24,12 +26,14 @@ interface ImageUrl {
 }
 
 interface Props {
-  imageUrls: [ImageUrl];
+  imageUrls: [ImageUrl] | null;
+  errorMessage: null | string;
 }
 
-const Home: React.FC<Props> = ({ imageUrls }) => {
-  const [horsePic, setHorsePic] = useState<string>("");
-
+const Home: React.FC<Props> = ({ imageUrls, errorMessage }) => {
+  const [horsePic, setHorsePic] = useState<string | null>(
+    imageUrls ? imageUrls[0].urls.full : null
+  );
   let index = 1;
   const setIntervalFunction = () => {
     if (imageUrls && imageUrls.length) {
@@ -41,7 +45,7 @@ const Home: React.FC<Props> = ({ imageUrls }) => {
         index = 1;
       }
     } else {
-      console.log("error: page not found");
+      console.log("errorMessage: page not found");
     }
   };
 
@@ -55,19 +59,17 @@ const Home: React.FC<Props> = ({ imageUrls }) => {
     };
   }, [imageUrls]);
 
+  if (errorMessage) {
+    return <DisplayError message={errorMessage} />;
+  }
   if (!horsePic) {
     return <Loading>loading...</Loading>;
-  }
-
-  return (
-    <>
-      <DisplayImage image={horsePic} />
-    </>
-  );
+  } else return <DisplayImage image={horsePic} />;
 };
 
 export const getStaticProps = async () => {
   let imageUrls: [ImageUrl] | null = null;
+  let errorMessage: null | string = null;
   try {
     const response = await fetch(
       `https://api.unsplash.com/search/photos?&query=horse&client_id=${process.env.CLIENT_ID}`
@@ -75,10 +77,10 @@ export const getStaticProps = async () => {
     const result = await response.json();
     imageUrls = result.results;
   } catch (err) {
-    console.error("Something bad happened");
+    errorMessage = "something bad happened";
   }
   return {
-    props: { imageUrls }
+    props: { imageUrls, errorMessage }
   };
 };
 
