@@ -26,9 +26,12 @@ interface ImageUrl {
   };
 }
 
+type picture = [ImageUrl] | null;
+type msg = string | null;
+
 interface Props {
-  imageUrls: [ImageUrl] | null;
-  errorMessage: null | string;
+  imageUrls: picture;
+  errorMessage: msg;
 }
 
 const Home: React.FC<Props> = ({ imageUrls, errorMessage }) => {
@@ -69,8 +72,8 @@ const Home: React.FC<Props> = ({ imageUrls, errorMessage }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  let imageUrls: [ImageUrl] | null = null;
-  let errorMessage: null | string = null;
+  let imageUrls: picture = null;
+  let errorMessage: msg = null;
   try {
     const response = await fetch(
       `https://api.unsplash.com/search/photos?&query=horse&client_id=${process.env.CLIENT_ID}`
