@@ -1,4 +1,8 @@
-# Comparing lighthouse perforamces of pre-rendering using `getStaticProps` and `getServerSideProps`
+# Comparing lighthouse perforamces of client-side rendering and pre-rendering using `getStaticProps` and `getServerSideProps`
+
+## Client side rendering
+`
+<img width="1440" alt="Screen Shot 2020-08-27 at 17 37 03" src="https://user-images.githubusercontent.com/47273243/91443257-b5211400-e890-11ea-9003-a9ab608012d0.png">
 
 ## Static generation using `getStaticProps`
 
